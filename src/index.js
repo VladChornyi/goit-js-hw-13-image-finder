@@ -2,8 +2,6 @@ import './sass/main.scss';
 import './js/apiService.js';
 import NewApiService from './js/apiService.js';
 import imgCardTpl from './tpl/imgCardTpl';
-import { error } from '@pnotify/core';
-import { info } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import _ from 'lodash';
