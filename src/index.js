@@ -18,11 +18,20 @@ refs.loadMoreNode.addEventListener('click', onLoadMore);
 
 function onSearch(e) {
   e.preventDefault();
-
+  refs.loadMoreNode.classList.add('is-hidden');
   newApiService.query = e.currentTarget.elements.query.value;
   newApiService.resetPage();
-  newApiService.fetchHits().then(addNewQueryCards);
-  refs.loadMoreNode.classList.remove('is-hidden');
+  newApiService
+    .fetchHits()
+    .then(addNewQueryCards)
+    .then(hits => {
+      document.querySelectorAll('.list-item.is-hidden').forEach(li => {
+        li.classList.remove('is-hidden');
+      });
+      if (hits.length > 0) {
+        refs.loadMoreNode.classList.remove('is-hidden');
+      }
+    });
 }
 
 function onLoadMore() {
@@ -31,6 +40,16 @@ function onLoadMore() {
 
 function addNewQueryCards(hits) {
   refs.cardsContainer.innerHTML = imgCardTpl(hits);
+  return new Promise((resolve, reject) => {
+    let counter = 0;
+    document.querySelectorAll('.list-item.is-hidden img').forEach(img => {
+      img.onload = () => {
+        if (++counter >= hits.length) {
+          resolve(hits);
+        }
+      };
+    });
+  });
 }
 
 function appendCards(hits) {

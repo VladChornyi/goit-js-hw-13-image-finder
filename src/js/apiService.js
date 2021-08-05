@@ -1,4 +1,6 @@
 import { error } from '@pnotify/core';
+import { info } from '@pnotify/core';
+
 export default class NewApiService {
   constructor() {
     this.searchQuery = '';
